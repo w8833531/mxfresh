@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'goods',
     'trade',
     'user_operation',
+    'xadmin',
+    'crispy_forms',
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
