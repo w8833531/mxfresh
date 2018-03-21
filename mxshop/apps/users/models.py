@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
-class UserPorfile(AbstractUser):
+class UserProfile(AbstractUser):
     """
     用户
     """
