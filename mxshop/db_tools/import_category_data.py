@@ -7,8 +7,10 @@ import os
 
 
 pwd = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(pwd+"../")
+# sys.path.append(pwd+"../")
+sys.path.insert(0, os.path.join(pwd, '../'))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mxshop.settings")
+print(os.environ.items())
 
 import django
 django.setup()
