@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.static import serve
 import xadmin
+
+from mxshop.settings import MEDIA_ROOT
 
 urlpatterns = [
     # 管理站点xadmin url
     url(r'^xadmin/', xadmin.site.urls),
     # 增加富文本 DjangoUedit url
     url(r'^ueditor/', include('DjangoUeditor.urls')),
+    # 配置media document_root
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT})
 ]
