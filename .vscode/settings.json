@@ -1,0 +1,25 @@
+{
+    // vscode setting for django http://ruddra.com/2017/08/19/vs-code-for-python-development/index.html
+    "python.pythonPath": "C:/Users/Admin/mydjango/Scripts/python",
+    "python.linting.pylintPath": "C:/Users/Admin/mydjango/Scripts/pylint",
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/apps",
+        "${workspaceFolder}/extra_apps"
+    ],
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "templateGenerator.fields.author": "吴鹰",
+    "templateGenerator.fields.email": "wuying@corp.the9.com",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*,pyc": true
+    },
+}

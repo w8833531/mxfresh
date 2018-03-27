@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import xadmin
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
-import xadmin
 
+from goods.views_base import GoodsListView
 from mxshop.settings import MEDIA_ROOT
 
 urlpatterns = [
@@ -26,5 +27,8 @@ urlpatterns = [
     # 增加富文本 DjangoUedit url
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     # 配置media document_root
-    url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT})
+    url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+
+    # 商品列表页面
+    url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
 ]
