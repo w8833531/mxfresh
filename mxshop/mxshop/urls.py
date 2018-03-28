@@ -17,8 +17,9 @@ import xadmin
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
+from rest_framework.documentation import include_docs_urls
 
-from goods.views_base import GoodsListView
+from goods.views import GoodsListView
 from mxshop.settings import MEDIA_ROOT
 
 urlpatterns = [
@@ -30,5 +31,11 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页面
-    url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
+    url(r'^goods/$', GoodsListView.as_view(), name="goods-list"),
+
+    # 生成DRF(Django RESTful Framework) 文档 url 配置
+    url(r'docs/', include_docs_urls(title="慕学生鲜")),
+
+    # DRF api 登录认证 url 配置
+    url(r'^api-auth/', include('rest_framework.urls'))
 ]
