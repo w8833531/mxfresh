@@ -1,18 +1,27 @@
 from django.shortcuts import render
 from django.http import Http404
-from rest_framework.views import APIView
+from rest_framework import mixins, generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Goods
 from .serializers import GoodsSerializer
 
 # Create your views here.
-class GoodsListView(APIView):
+
+class GoodsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    page_query_param = 'p'
+    max_page_size = 100
+
+
+class GoodsListView(generics.ListAPIView):
     """
-    List all goods.
+    List goods.
     """
-    def get(self, request, format=None):
-        goods = Goods.objects.all()[:10]
-        goods_serializer = GoodsSerializer(goods, many=True)
-        return Response(goods_serializer.data)
+    queryset = Goods.objects.all()
+    serializer_class = GoodsSerializer
+    pagination_class = GoodsSetPagination
+
