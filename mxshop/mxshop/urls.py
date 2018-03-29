@@ -25,13 +25,7 @@ from mxshop.settings import MEDIA_ROOT
 # 配置 URL Router
 router = DefaultRouter()
 # 配置 商品列表页面 goods的URL
-router.register(r'^goods/$', GoodsListViewSet)
-
-
-goods_list = GoodsListViewSet.as_view({
-    'get': 'list',
-})
-
+router.register(r'goods', GoodsListViewSet)
 
 
 urlpatterns = [
