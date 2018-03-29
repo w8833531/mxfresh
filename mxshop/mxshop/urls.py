@@ -18,9 +18,21 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
-
-from goods.views import GoodsListView
+from rest_framework.routers import DefaultRouter
+from goods.views import GoodsListViewSet
 from mxshop.settings import MEDIA_ROOT
+
+# 配置 URL Router
+router = DefaultRouter()
+# 配置 商品列表页面 goods的URL
+router.register(r'^goods/$', GoodsListViewSet)
+
+
+goods_list = GoodsListViewSet.as_view({
+    'get': 'list',
+})
+
+
 
 urlpatterns = [
     # 管理站点xadmin url
@@ -31,7 +43,7 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表页面
-    url(r'^goods/$', GoodsListView.as_view(), name="goods-list"),
+    # url(r'^goods/$', goods_list, name="goods-list"),
 
     # 生成DRF(Django RESTful Framework) 文档 url 配置
     url(r'docs/', include_docs_urls(title="慕学生鲜")),
