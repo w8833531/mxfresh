@@ -42,8 +42,8 @@ urlpatterns = [
     # 配置media document_root
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
-    # 商品列表页面
-    # url(r'^goods/$', goods_list, name="goods-list"),
+    # REST Framework DefaultRouter register URL
+    url(r'^', include(router.urls)),
 
     # 生成DRF(Django RESTful Framework) 文档 url 配置
     url(r'docs/', include_docs_urls(title="慕学生鲜")),
