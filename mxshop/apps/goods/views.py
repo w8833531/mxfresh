@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods
@@ -27,5 +28,6 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsSetPagination
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filter_class = GoodsFilter
+    search_fields = ('name', 'goods_brief', 'goods_desc')
