@@ -5,9 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods
 from .serializers import GoodsSerializer
+from .filters import GoodsFilter
 
 # Create your views here.
 
@@ -20,9 +22,10 @@ class GoodsSetPagination(PageNumberPagination):
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
-    List goods.
+    商品列表页
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsSetPagination
-
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = GoodsFilter
