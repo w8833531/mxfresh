@@ -23,7 +23,7 @@ class GoodsSetPagination(PageNumberPagination):
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
-    商品列表页
+    商品列表页, 实现 分页、搜索、过滤、排序功能
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
