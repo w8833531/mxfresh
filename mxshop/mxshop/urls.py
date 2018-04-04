@@ -19,14 +19,15 @@ from django.contrib import admin
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
-from goods.views import GoodsListViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet
 from mxshop.settings import MEDIA_ROOT
 
-# 配置 URL Router
+# 配置 DRF URL Router
 router = DefaultRouter()
 # 配置 商品列表页面 goods的URL
-router.register(r'goods', GoodsListViewSet)
-
+router.register(r'goods', GoodsListViewSet, base_name="goods")
+# 配置 商品分类列表页面 goodscategory的URL
+router.register(r'categorys', CategoryViewSet, base_name="categorys")
 
 urlpatterns = [
     # 管理站点xadmin url
