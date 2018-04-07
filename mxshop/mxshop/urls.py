@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 from goods.views import GoodsListViewSet, CategoryViewSet
 from mxshop.settings import MEDIA_ROOT
 
@@ -44,5 +45,7 @@ urlpatterns = [
     url(r'docs/', include_docs_urls(title="慕学生鲜")),
 
     # DRF api 登录认证 url 配置
-    url(r'^api-auth/', include('rest_framework.urls'))
+    url(r'^api-auth/', include('rest_framework.urls')),
+    # Add token auth
+    url(r'^api-token-auth/', views.obtain_auth_token)
 ]
