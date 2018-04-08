@@ -50,5 +50,5 @@ urlpatterns = [
     # Add  drf(jdango rest framework) token auth
     url(r'^api-token-auth/', views.obtain_auth_token),
     # add jwt(json web token) auth
-    url(r'^api-jwt-auth/', obtain_jwt_token),
+    url(r'^login/', obtain_jwt_token),
 ]
