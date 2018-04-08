@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 import datetime
+from dotenv import parse_dotenv, read_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -101,10 +102,10 @@ WSGI_APPLICATION = 'mxshop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mxshop',
-        'USER': 'root',
-        'PASSWORD': 'asdf:LKJ',
-        'HOST': '172.18.199.49',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
+        'HOST': os.getenv('HOST'),
     }
 }
 
@@ -133,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = os.getenv('TIME_ZONE','')
 
 USE_I18N = True
 
@@ -145,10 +146,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-MEDIA_URL = '/media/'
-STATIC_URL = '/static/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = os.getenv('MEDIA_URL')
+STATIC_URL = os.getenv('STATIC_URL')
+MEDIA_ROOT = os.path.join(BASE_DIR, os.getenv('MEDIA_ROOT'))
 
 # Add Toke Auth
 REST_FRAMEWORK = {
@@ -160,5 +160,5 @@ REST_FRAMEWORK = {
 }
 # add JWT(Json Web Token)
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=int(os.getenv('JWT_EXPIRATION_DELTA','1'))),
 }
