@@ -67,13 +67,14 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "runserver",
+                "--noreload",
                 "--nothreading"
             ],
             "env": {},
             "envFile": "${workspaceFolder}/.env",
             "debugOptions": [
                 "RedirectOutput",
-                "DjangoDebugging"
+                "Django"
             ]
         },
         {
