@@ -22,7 +22,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewSet, CategoryViewSet
-from users.views import SmsCodeViewSet
+from users.views import SmsCodeViewSet, UserViewset
 from mxshop.settings import MEDIA_ROOT
 
 # 配置 DRF URL Router
@@ -33,6 +33,8 @@ router.register(r'goods', GoodsListViewSet, base_name="goods")
 router.register(r'categorys', CategoryViewSet, base_name="categorys")
 # 配置 验证码的获取URL
 router.register(r'codes', SmsCodeViewSet, base_name="codes")
+# 配置 用户注册URL
+router.register(r'users', UserViewset, base_name="users")
 
 urlpatterns = [
     # 管理站点xadmin url
