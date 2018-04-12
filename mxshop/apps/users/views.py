@@ -11,6 +11,7 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+from rest_framework_jwt.utils import jwt_encode_handler
 
 
 from .serializers import SmsSerializer, UserRegSerializer
@@ -76,14 +77,14 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
-
-        re_dict = serializer.data
+        # 通过 rest_framework_jwt.utils 两个方法先通过user 获取payload,再通过payload获取token,通过re_dict 返回
+        re_dict = serializer.data       
         payload = jwt_payload_handler(user)
         re_dict["token"] = jwt_encode_handler(payload)
         re_dict["name"] = user.name if user.name else user.username
 
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         return serializer.save()
