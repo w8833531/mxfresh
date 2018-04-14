@@ -23,6 +23,7 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import SmsCodeViewSet, UserViewset
+from user_operation.views import UserFavViewset
 from mxshop.settings import MEDIA_ROOT
 
 # 配置 DRF URL Router
@@ -35,6 +36,8 @@ router.register(r'categorys', CategoryViewSet, base_name="categorys")
 router.register(r'codes', SmsCodeViewSet, base_name="codes")
 # 配置 用户注册URL
 router.register(r'users', UserViewset, base_name="users")
+# 配置 用户收藏URL
+router.register(r'userfavs', UserFavViewset, base_name='userfavs')
 
 urlpatterns = [
     # 管理站点xadmin url
