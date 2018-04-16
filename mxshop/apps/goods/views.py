@@ -25,7 +25,9 @@ class GoodsSetPagination(PageNumberPagination):
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:
-        商品列表页, 实现 分页、搜索、过滤、排序功能
+        获取商品列表页
+    read:
+        获取具体商品信息
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
@@ -41,6 +43,8 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
     """
     list:
         商品分类列表数据
+    read:
+        商品具体分类数据
     """
     queryset = GoodsCategory.objects.filter(category_type=1)
     serializer_class = CategorySerializer

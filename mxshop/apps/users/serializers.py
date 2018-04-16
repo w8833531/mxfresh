@@ -50,11 +50,12 @@ class UserRegSerializer(serializers.ModelSerializer):
                                      "max_length": "验证码大于4位",
                                      "min_length": "验证码小于4位",
                                  },
-                                 label="验证码")
-    username = serializers.CharField(required=True, allow_blank=False, label="用户名", validators=[
+                                 label="验证码", help_text="验证码")
+    username = serializers.CharField(required=True, allow_blank=False, label="用户名", help_text="用户名", validators=[
                                      UniqueValidator(queryset=User.objects.all(), message="用户名已经存在")])
     password = serializers.CharField(
-        style={'input_type': 'password'}, label="密码", write_only=True)
+        style={'input_type': 'password'}, label="密码",help_text="密码", write_only=True)
+    # mobile = serializers.CharField(allow_blank=True, label="手机号", help_text="手机号，默认是username")
 
     # 重载ModelSerializer.create 方法, 使用UserProfile.set_password方法来加密password并保存
     # 但建议使用django的Model signals 来解决这类问题，在做model save时来处理

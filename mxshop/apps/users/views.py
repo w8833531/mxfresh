@@ -37,7 +37,8 @@ class CustomBackend(ModelBackend):
 
 class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
     """
-    发送短信验证码
+    create:
+        发送短信验证码
     """
     serializer_class = SmsSerializer
 
@@ -65,15 +66,18 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
 
 class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
     """
-    用户注册
+    create:
+        用户注册
     """
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
 
     def create(self, request, *args, **kwargs):
         """
-        重载create 方法，在返回数据serializer.data中增加username 和 token,让注册完的用户马上就可以实现登录
+            用户注册
         """
+        # 重载create 方法，在返回数据serializer.data中增加username 和 token,让注册完的用户马上就可以实现登录
+        
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)

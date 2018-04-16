@@ -12,7 +12,14 @@ from utils.permissions import IsOwnerOrReadOnly
 
 class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.DestroyModelMixin,mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    用户收藏功能
+    list:
+        获取用户收藏列表
+    retrieve:
+        判断某个商品是否已经收藏
+    create:
+        收藏商品
+    delete:
+        去掉收藏商品
     """
     # 设置当前用户要登录且只能访问本用户的数据
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
