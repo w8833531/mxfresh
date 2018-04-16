@@ -20,6 +20,9 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.Destr
     serializer_class = UserFavSerializer
     # 设置要求使用JWT认证
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    
+    # 设置urlid 为goods_id而不是默认的表的PK
+    lookup_field = "goods_id"
 
     # 设置queryset 为当前用户的数据
     def get_queryset(self):
