@@ -7,14 +7,18 @@ from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 from django.db.models import Q
 from rest_framework.mixins import CreateModelMixin
+from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework import permissions
+from rest_framework import authentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.response import Response
 from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
 from rest_framework_jwt.utils import jwt_encode_handler
 
 
-from .serializers import SmsSerializer, UserRegSerializer
+from .serializers import SmsSerializer, UserRegSerializer, UserDetailSerializer
 from .models import VerifyCode
 from utils import sms_send
 # Create your views here.
@@ -64,16 +68,38 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+class UserViewset(CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """
     create:
         用户注册
+    read:
+        获取某个用户信息
+    update:
+        更新用户信息
+    
     """
-    serializer_class = UserRegSerializer
+    
     queryset = User.objects.all()
+    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication )
+    # permission_classes = (permissions.IsAuthenticated)
+    # 重载get_permissions方法，在用户注册(create)时不用登录，其它方式如(retrieve)要求登录,注意返回permissions.IsAuthenticated()实例 
+    def get_permissions(self):
+        if self.action == "retrieve":
+            return [permissions.IsAuthenticated()]
+        elif self.action == "create":
+           return []
+        return [] 
+    # serializer_class = UserRegSerializer
+    # 重载 get_serializer_class方法，在用户注册时用UserRegSerializer， 其它方式用UserDetailSerializer
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserDetailSerializer
+        elif self.action == "create":
+           return UserRegSerializer
+        return UserDetailSerializer 
 
     def create(self, request, *args, **kwargs):
-        """
+        """   
             用户注册
         """
         # 重载create 方法，在返回数据serializer.data中增加username 和 token,让注册完的用户马上就可以实现登录
@@ -89,6 +115,9 @@ class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+    # 重载 mixins.RetrieveModelMixin的get_object 方法，返回当前用户对象
+    def get_object(self):
+        return self.request.user
 
     def perform_create(self, serializer):
         return serializer.save()
