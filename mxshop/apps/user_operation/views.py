@@ -4,8 +4,8 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
-from .models import UserFav
-from .serializer import UserFavSerializer, UserFavDetailSerializer
+from .models import UserFav, UserLeavingMessage, UserAddress
+from .serializer import UserFavSerializer, UserFavDetailSerializer, LeavingMessageSerializer, AddressSerializer
 from utils.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
@@ -32,7 +32,7 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.Destr
         elif self.action == "create":
            return UserFavSerializer
         return UserFavSerializer
-    # 设置要求使用JWT认证
+    # 设置要求使用JWT认证Session认证
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     
     # 设置urlid 为goods_id而不是默认的表的PK
@@ -41,3 +41,44 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.Destr
     # 设置queryset 为当前用户的数据
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)
+
+
+class LeavingMessageViewset(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        获取用户留言
+    create:
+        添加留言
+    delete:
+        删除留言功能
+    """
+    serializer_class = LeavingMessageSerializer
+    # 设置当前用户要登录且只能访问本用户的数据
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    # 设置要求使用JWT或Session认证
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # 设置queryset 为当前用户的数据
+    def get_queryset(self):
+        return UserLeavingMessage.objects.filter(user=self.request.user)
+
+
+class AddressViewset(viewsets.ModelViewSet):
+    """
+    收货地址管理
+    list:
+        获取用户地址列表
+    create:
+        添加地址
+    delete:
+        删除地址
+    update:
+        更新地址
+    """
+    serializer_class = AddressSerializer
+    # 设置当前用户要登录且只能访问本用户的数据
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    # 设置要求使用JWT或Session认证
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
+    # 设置queryset 为当前用户的数据
+    def get_queryset(self):
+        return UserAddress.objects.filter(user=self.request.user)
