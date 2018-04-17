@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication
 from .models import UserFav
-from .serializer import UserFavSerializer
+from .serializer import UserFavSerializer, UserFavDetailSerializer
 from utils.permissions import IsOwnerOrReadOnly
 
 # Create your views here.
@@ -24,7 +24,14 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.Destr
     # 设置当前用户要登录且只能访问本用户的数据
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
 
-    serializer_class = UserFavSerializer
+    # serializer_class = UserFavSerializer
+    # 重载 get_serializer_class方法，使用动态Serializer
+    def get_serializer_class(self):
+        if self.action == "list":
+            return UserFavDetailSerializer
+        elif self.action == "create":
+           return UserFavSerializer
+        return UserFavSerializer
     # 设置要求使用JWT认证
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)
     
