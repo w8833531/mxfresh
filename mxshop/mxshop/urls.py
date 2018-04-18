@@ -23,6 +23,7 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import SmsCodeViewSet, UserViewset
+from trade.views import ShoppingCartViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
 from mxshop.settings import MEDIA_ROOT
 
@@ -42,6 +43,8 @@ router.register(r'userfavs', UserFavViewset, base_name='userfavs')
 router.register(r'messages', LeavingMessageViewset, base_name="messages")
 # 收货地址
 router.register(r'address', AddressViewset, base_name="address")
+# 购物车
+router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcarts')
 
 urlpatterns = [
     # 管理站点xadmin url
