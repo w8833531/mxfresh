@@ -5,11 +5,12 @@
 # @Author : 吴鹰 (wuying)
 # @Link   : 
 # @Date   : 4/18/2018, 10:36:15 AM
-
+import random, time
 from rest_framework import serializers
 from goods.models import Goods
-from .models import ShoppingCart
+from .models import ShoppingCart, OrderGoods, OrderInfo
 from goods.serializers import GoodsSerializer
+
 
 class ShopCartDetailSerializer(serializers.ModelSerializer):
     goods = GoodsSerializer(many=False)
@@ -54,6 +55,42 @@ class ShopCartSerializer(serializers.Serializer):
         instance.nums = validated_data["nums"]
         instance.save()
         return instance
+
+
+class OrderGoodsSerializer(serializers.ModelSerializer):
+    goods = GoodsSerializer(many=False)
+    class Meta:
+        model = OrderGoods
+        fields = "__all__"
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+    goods = OrderGoodsSerializer(many=True)
+    class Meta:
+        model = OrderInfo
+        fields = "__all__"
+
+class OrderSerializer(serializers.ModelSerializer):
+    # 隐藏用户信息
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    # 只读订单状态/交易号/订单号
+    pay_status = serializers.CharField(read_only=True)
+    trade_no = serializers.CharField(read_only=True)
+    order_sn = serializers.CharField(read_only=True)
+    pay_time = serializers.DateTimeField(read_only=True)
+    # alipay_url = serializers.SerializerMethodField(read_only=True)
+    
+    
+    # override validate method , set order_sn attribute
+    # def validate(self, attrs):
+    #    attrs["order_sn"] = self.generate_order_sn()
+    #    return attrs
+
+
+    class Meta:
+        model = OrderInfo
+        fields = "__all__"
 
 
         

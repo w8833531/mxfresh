@@ -15,7 +15,6 @@ class ShoppingCart(models.Model):
     user = models.ForeignKey(User, verbose_name=u"用户", help_text="用户")
     goods = models.ForeignKey(Goods, verbose_name=u"商品", help_text="商品")
     nums = models.IntegerField(default=0, verbose_name="购买数量", help_text="购买数量")
-
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间", help_text="添加时间")
 
     class Meta:
@@ -51,7 +50,6 @@ class OrderInfo(models.Model):
     address = models.CharField(max_length=100, default="", verbose_name="收货地址")
     signer_name = models.CharField(max_length=20, default="", verbose_name="签收人")
     singer_mobile = models.CharField(max_length=11, verbose_name="联系电话")
-
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
@@ -69,7 +67,6 @@ class OrderGoods(models.Model):
     order = models.ForeignKey(OrderInfo, verbose_name="订单信息", related_name="goods")
     goods = models.ForeignKey(Goods, verbose_name="商品")
     goods_num = models.IntegerField(default=0, verbose_name="商品数量")
-
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:

@@ -23,8 +23,8 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import SmsCodeViewSet, UserViewset
-from trade.views import ShoppingCartViewset
-from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
+from trade.views import ShoppingCartViewset, OrderViewset
+from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset 
 from mxshop.settings import MEDIA_ROOT
 
 # 配置 DRF URL Router
@@ -45,6 +45,8 @@ router.register(r'messages', LeavingMessageViewset, base_name="messages")
 router.register(r'address', AddressViewset, base_name="address")
 # 购物车
 router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcarts')
+# 订单
+router.register(r'orders', OrderViewset, base_name='orders')
 
 urlpatterns = [
     # 管理站点xadmin url
