@@ -23,7 +23,7 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import SmsCodeViewSet, UserViewset
-from trade.views import ShoppingCartViewset, OrderViewset
+from trade.views import ShoppingCartViewset, OrderViewset, AliPayViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset 
 from mxshop.settings import MEDIA_ROOT
 
@@ -68,4 +68,8 @@ urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
     # add jwt(json web token) auth
     url(r'^login/', obtain_jwt_token),
+    # add alipay return_url
+    url(r'^alipay/return/', AliPayViewset.as_view(), name="alipay"),
+    
+
 ]

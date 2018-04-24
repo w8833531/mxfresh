@@ -165,3 +165,10 @@ JWT_AUTH = {
 
 # 手机号正则表达试
 REGEX_MOBILE = "^13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89]\d{8}$"
+
+# alipay
+appid =  os.getenv('APPID')
+private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/my_private_key_2048.txt')
+alipay_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_public_key_2048.txt')
+alipay_return_url = os.getenv('ALIPAY_RETURN_URL')
+alipay_notify_url = os.getenv('ALIPAY_NOTIFY_URL')
