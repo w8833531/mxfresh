@@ -21,7 +21,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
-from goods.views import GoodsListViewSet, CategoryViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet, HotSearchsViewset, BannerViewset
 from users.views import SmsCodeViewSet, UserViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AliPayViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset 
@@ -33,6 +33,8 @@ router = DefaultRouter()
 router.register(r'goods', GoodsListViewSet, base_name="goods")
 # 配置 商品分类列表页面 goodscategory的URL
 router.register(r'categorys', CategoryViewSet, base_name="categorys")
+# 热搜词
+router.register(r'hotsearchs', HotSearchsViewset, base_name="hotsearchs")
 # 配置 验证码的获取URL
 router.register(r'codes', SmsCodeViewSet, base_name="codes")
 # 配置 用户注册URL
@@ -47,6 +49,8 @@ router.register(r'address', AddressViewset, base_name="address")
 router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcarts')
 # 订单
 router.register(r'orders', OrderViewset, base_name='orders')
+# 轮播图
+router.register(r'banners', BannerViewset, base_name="banners")
 
 urlpatterns = [
     # 管理站点xadmin url

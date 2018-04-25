@@ -71,7 +71,7 @@
                 "--nothreading"
             ],
             "env": {},
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/mxshop/.env",
             "debugOptions": [
                 "RedirectOutput",
                 "Django"

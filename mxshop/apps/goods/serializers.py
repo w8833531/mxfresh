@@ -6,7 +6,7 @@
 # @Link   : 
 # @Date   : 3/27/2018, 3:57:48 PM
 from rest_framework import serializers
-from .models import Goods, GoodsCategory, GoodsImage
+from .models import Goods, GoodsCategory, GoodsImage, HotSearchWords, Banner
 
 class CategorySerializer3(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +41,13 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class HotWordsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotSearchWords
+        fields = "__all__"
+
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner
+        fields = "__all__"
