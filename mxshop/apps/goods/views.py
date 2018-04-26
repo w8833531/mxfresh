@@ -10,7 +10,7 @@ from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods, GoodsCategory, HotSearchWords, Banner
-from .serializers import GoodsSerializer, CategorySerializer, HotWordsSerializer, BannerSerializer
+from .serializers import GoodsSerializer, CategorySerializer, HotWordsSerializer, BannerSerializer, IndexGoodsSerializer
 from .filters import GoodsFilter
 
 # Create your views here.
@@ -64,3 +64,11 @@ class BannerViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     queryset = Banner.objects.all().order_by("index")
     serializer_class = BannerSerializer
+
+
+class IndexCategoryViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    首面商品分类数据
+    """
+    queryset = GoodsCategory.objects.filter(is_tab=True)
+    serializer_class = IndexGoodsSerializer

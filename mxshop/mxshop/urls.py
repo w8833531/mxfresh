@@ -21,7 +21,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
-from goods.views import GoodsListViewSet, CategoryViewSet, HotSearchsViewset, BannerViewset
+from goods.views import GoodsListViewSet, CategoryViewSet, HotSearchsViewset, BannerViewset, IndexCategoryViewset
 from users.views import SmsCodeViewSet, UserViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AliPayViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset 
@@ -51,6 +51,8 @@ router.register(r'shopcarts', ShoppingCartViewset, base_name='shopcarts')
 router.register(r'orders', OrderViewset, base_name='orders')
 # 轮播图
 router.register(r'banners', BannerViewset, base_name="banners")
+# 首页商品展示
+router.register(r'indexgoods', IndexCategoryViewset, base_name='indexgoods')
 
 urlpatterns = [
     # 管理站点xadmin url

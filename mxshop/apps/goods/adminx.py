@@ -59,6 +59,11 @@ class HotSearchAdmin(object):
 
 class IndexAdAdmin(object):
     list_display = ["category", "goods"]
+    def get_context(self):
+        context = super(IndexAdAdmin, self).get_context()
+        if 'form' in context:
+            context['form'].fields['category'].queryset = GoodsCategory.objects.filter(category_type=1)
+        return context
 
 
 xadmin.site.register(Goods, GoodsAdmin)
