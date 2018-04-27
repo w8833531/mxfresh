@@ -75,21 +75,40 @@ class OrderViewset(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Retrie
                         userid=self.request.user.id, random_str=random_int.randint(10, 99))
         return order_sn
 
-    # override perform_create method, set order_sn in serializer.data
+    # 在创建订单时，重载 perform_create 方法, set order_sn in serializer.data
     def perform_create(self, serializer):
+        """
+        在创建订单时，关联订单中的商品，消减商品库存，清空购物车
+        """
+        # 保存当前用户的订单
         order = serializer.save(order_sn=self.generate_order_sn())
-
-        # 获取当前用户购物车内所有商品，放入定单，并清空购物车
+        # 获取当前用户购物车内所有商品条目
         shop_carts = ShoppingCart.objects.filter(user=self.request.user)
+        # 把商品、商品数量放入定单，库存相应消减，并清空购物车
         for shop_cart in shop_carts:
+            # 生成订单商品对象
             order_goods = OrderGoods()
+            # 把商品、商品数量放入订单商品对象
             order_goods.goods = shop_cart.goods
             order_goods.goods_num = shop_cart.nums
+            # 对商品的库存相应消减
+            order_goods.goods.goods_num -= order_goods.goods_num
+            order_goods.goods.save()
+            # 放入订单对象并保存
             order_goods.order = order
             order_goods.save()
-            
+            # 清空购物车
             shop_cart.delete()
         return order
+    # 在删除订单时，重载 perform_destroy 方法，实现订单商品库存增加
+    def perform_destroy(self, instance):
+        if instance.pay_status != "TRADE_SUCCESS":
+            # 在删除订单前，如果订单没有支付成功，增加这个订单中的所有商品对应数量的库存
+            order_goods = OrderGoods.objects.filter(order=instance.id)
+            for order_good in order_goods:
+                order_good.goods.goods_num += order_good.goods_num
+                order_good.goods.save()
+        instance.delete()
     
 
 class AliPayViewset(APIView):
@@ -161,6 +180,12 @@ class AliPayViewset(APIView):
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
                 existed_order.pay_status = trade_status
+                # 如果支付成功，把订单中所有商品售出数量做相应增加
+                if existed_order.pay_status == "TRADE_SUCCESS":
+                    order_goods = existed_order.goods.all()
+                    for order_good in order_goods:
+                        order_good.goods.sold_num += order_good.goods_num
+                        order_good.goods.save()
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()
                 existed_order.save()
