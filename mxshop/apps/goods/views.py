@@ -3,6 +3,7 @@ from django.http import Http404
 from rest_framework import mixins, generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import filters
@@ -30,6 +31,7 @@ class GoodsListViewSet(CacheResponseMixin, mixins.ListModelMixin, mixins.Retriev
     read:
         获取具体商品信息
     """
+    throttle_classes = (UserRateThrottle, AnonRateThrottle)
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsSetPagination
