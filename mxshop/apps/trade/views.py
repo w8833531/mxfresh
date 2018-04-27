@@ -180,7 +180,7 @@ class AliPayViewset(APIView):
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
                 existed_order.pay_status = trade_status
-                # 如果支付成功，把订单中所有商品售出数量做相应增加
+                # 如果支付成功，把订单中所有商品售出数量做相应增加(注：这个操作不要求实时，建议用后台程序来完成会更好)
                 if existed_order.pay_status == "TRADE_SUCCESS":
                     order_goods = existed_order.goods.all()
                     for order_good in order_goods:

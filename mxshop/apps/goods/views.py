@@ -6,7 +6,8 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import filters
-from rest_framework.authentication import TokenAuthentication 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework_extensions.mixins import CacheResponseMixin  
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods, GoodsCategory, HotSearchWords, Banner
@@ -22,7 +23,7 @@ class GoodsSetPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:
         获取商品列表页

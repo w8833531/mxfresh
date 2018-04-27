@@ -163,6 +163,11 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=int(os.getenv('JWT_EXPIRATION_DELTA','1'))),
 }
 
+# add REST_FAMEWORK_EXTENSIONS settings
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5
+}
+
 # 手机号正则表达试
 REGEX_MOBILE = "^13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89]\d{8}$"
 
