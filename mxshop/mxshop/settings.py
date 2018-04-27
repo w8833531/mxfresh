@@ -165,7 +165,18 @@ JWT_AUTH = {
 
 # add REST_FAMEWORK_EXTENSIONS settings
 REST_FRAMEWORK_EXTENSIONS = {
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 5
+}
+
+# add django-redis settings
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 # 手机号正则表达试
