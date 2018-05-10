@@ -30,7 +30,7 @@
             </li>
             <li class="other-login">
               <a class="qq" href="http://shop.projectsedu.com:8001/login/qq/"></a>
-              <a class="sina" href="http://shop.projectsedu.com:8001/login/weibo/"></a>
+              <a class="sina" href="http://192.168.1.36/login/weibo/"></a>
               <a class="weixin" href="http://shop.projectsedu.com:8001/login/weixin/"></a>
             </li>
           </ul>

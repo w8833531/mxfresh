@@ -35,6 +35,10 @@ ALLOWED_HOSTS = [os.getenv('ALLOW_HOSTS')]
 # Application definition
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.qq.QQOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 
@@ -55,6 +59,8 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'rest_framework',
+    'social_django',
+    'rest_social_auth',
     'django_filters',
     'corsheaders',
     'rest_framework.authtoken',
@@ -88,6 +94,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -162,7 +170,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '20/minute',
+        'anon': '200/minute',
         'user': '500/minute'
     }
 }
@@ -196,3 +204,12 @@ private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/my_private_key_2048.t
 alipay_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_public_key_2048.txt')
 alipay_return_url = os.getenv('ALIPAY_RETURN_URL')
 alipay_notify_url = os.getenv('ALIPAY_NOTIFY_URL')
+
+# social login 
+# Weibo
+SOCIAL_AUTH_WEIBO_KEY = os.getenv('WEIBO_KEY')
+SOCIAL_AUTH_WEIBO_SECRET = os.getenv('WEIBO_SECRET')
+# SOCIAL_AUTH_LOGIN_URL = 'http://192.168.1.34/api/login/social/jwt/weibo/'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://192.168.1.34/api/login/social/jwt/weibo/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.getenv('WEIBO_LOGIN_REDIRECT_URL')
+REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://172.18.199.49/api/login/social/jwt/weibo/'

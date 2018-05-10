@@ -26,6 +26,9 @@ from users.views import SmsCodeViewSet, UserViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AliPayViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset 
 from mxshop.settings import MEDIA_ROOT
+from social_django import urls, views
+from rest_social_auth import urls_jwt
+
 
 # 配置 DRF URL Router
 router = DefaultRouter()
@@ -71,11 +74,14 @@ urlpatterns = [
     # DRF api 登录认证 url 配置
     url(r'^api-auth/', include('rest_framework.urls')),
     # Add  drf(jdango rest framework) token auth
-    url(r'^api-token-auth/', views.obtain_auth_token),
+    # url(r'^api-token-auth/', views.obtain_auth_token),
     # add jwt(json web token) auth
-    url(r'^login/', obtain_jwt_token),
+    url(r'^login/$', obtain_jwt_token),
     # add alipay return_url
     url(r'^alipay/return/', AliPayViewset.as_view(), name="alipay"),
-    
-
+    # 第三方登录URL
+    url(r'^api/login/', include('rest_social_auth.urls_jwt')),
+    url(r'^api/login/', include('rest_social_auth.urls_token')),
+    url(r'^api/login/', include('rest_social_auth.urls_session')),
+    url('', include('social_django.urls', namespace='social')),
 ]
