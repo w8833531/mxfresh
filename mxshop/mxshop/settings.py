@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 import datetime
+import raven
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework.authtoken',
+    'raven.contrib.django.raven_compat',
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
@@ -212,4 +214,12 @@ SOCIAL_AUTH_WEIBO_SECRET = os.getenv('WEIBO_SECRET')
 # SOCIAL_AUTH_LOGIN_URL = 'http://192.168.1.34/api/login/social/jwt/weibo/'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://192.168.1.34/api/login/social/jwt/weibo/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.getenv('WEIBO_LOGIN_REDIRECT_URL')
-REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://172.18.199.49/api/login/social/jwt/weibo/'
+# REST_SOCIAL_OAUTH_ABSOLUTE_REDIRECT_URI = 'http://172.18.199.49/api/login/social/jwt/weibo/'
+
+
+RAVEN_CONFIG = {
+    'dsn': os.getenv('SENTRY_DSN'),
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    # 'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+}
