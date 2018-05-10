@@ -40,8 +40,6 @@ class UserFavViewset(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.Destr
 
     # 设置queryset 为当前用户的数据
     def get_queryset(self):
-        a = {}
-        print(a["b"])
         return UserFav.objects.filter(user=self.request.user)
 
 
