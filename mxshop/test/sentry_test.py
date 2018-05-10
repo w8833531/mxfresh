@@ -6,7 +6,7 @@
 # @Link   : 
 # @Date   : 5/9/2018, 5:08:31 PM
 
-dsn = "http://59369be85a0f43aead58fa54a3ffeb69:2a8220d6706f48d48973a8b5692130e6@127.0.0.1:9000/3"
+dsn = "http://ea848a57fe8a46be9938677eba633f1d:6aa3b185b8884199be148b8081d3d9f6@techdevops:9000/3"
 from raven import Client
 
 client = Client(dsn)
